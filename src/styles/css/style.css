@@ -1,0 +1,22 @@
+:root {
+  --background: #ffffff;
+  --foreground: #1d3547;
+}
+
+@theme inline {
+  --font-sans: "Poppins", sans-serif;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  line-height: 1.6;
+  color: #4b5563;
+  background-color: #ffffff;
+}
+
+/*# sourceMappingURL=style.css.map */

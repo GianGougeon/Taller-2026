@@ -1,0 +1,23 @@
+@use "./base/variables" as *;
+
+:root {
+    --background: #{$blanco};
+    --foreground: #{$azul-oscuro};
+}
+
+@theme inline {
+    --font-sans: "Poppins", sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: "Poppins", sans-serif;
+    line-height: 1.6;
+    color: $texto-cuerpo;
+    background-color: $blanco;
+}

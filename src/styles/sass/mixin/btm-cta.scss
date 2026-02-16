@@ -1,0 +1,28 @@
+@use "../base/variables" as v;
+
+@mixin btn-cta($bg: v.$naranja-gradiente, $color: #fff, $padding-vertical: 1rem, $padding-horizontal: 2.5rem, $radius: 50px, $font-weight: 600, $shadow: rgba(255, 94, 0, 0.3), $shadow-hover: rgba(255, 94, 0, 0.4), $hover-translate: -3px, $duration: 0.3s) {
+    display: inline-block;
+    background: $bg;
+    color: $color;
+    padding: $padding-vertical $padding-horizontal;
+    border-radius: $radius;
+    text-decoration: none;
+    font-weight: $font-weight;
+    box-shadow: 0 4px 15px $shadow;
+    transition: all $duration ease;
+    cursor: pointer;
+
+    &:hover {
+        color: $color !important;
+    }
+}
+
+/* Ejemplo */
+.btnCta {
+    @include btn-cta();
+}
+
+/* Ejemplo */
+.btnCta--small {
+    @include btn-cta($padding-vertical: 0.5rem, $padding-horizontal: 1rem, $radius: 30px);
+}
