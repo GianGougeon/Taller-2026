@@ -18,7 +18,7 @@ export default function Header() {
                 </Link>
                 <ul>
                     <li><Link href="/">Inicio</Link></li>
-                    <li><Link href="/perfil" className={styles.btnCtaC}>Perfil</Link></li>
+                    <li><Link href="/pages/perfil" className={styles.btnCtaC}>Perfil</Link></li>
                 </ul>
             </nav>
         </>
