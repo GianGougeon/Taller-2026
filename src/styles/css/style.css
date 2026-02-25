@@ -1,3 +1,9 @@
+main {
+  display: flex !important;
+  justify-content: center !important;
+  margin-top: 4rem !important;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #1d3547;

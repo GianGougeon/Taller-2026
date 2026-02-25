@@ -13,6 +13,7 @@ export const Register = async (username, password, name) => {
         }),
     });
     const data = await response.json();
+    localStorage.setItem("token", data.token);
     console.log("Base de datos creada", data);
 };
 
@@ -37,5 +38,12 @@ export const Logout = () => {
     localStorage.removeItem("token");
 }
 
-export const getUser = async (token) => { };
+export const getLocals = async (q = "", type = "", priceRange = "", rating = "", city = "", zone = "") => {
+    const response = await fetch(`${url}/api/locals?q=${q}&type=${type}&priceRange=${priceRange}&rating=${rating}&city=${city}&zone=${zone}`);
+    const data = await response.json();
+    console.log(data);
+    return data;
+
+}
+
 

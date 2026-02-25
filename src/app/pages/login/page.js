@@ -4,6 +4,7 @@ import { Login } from '../../../api/api' // Asegúrate de tener esta función en
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useAuth } from '../../../context/AuthContext'
 
 const Page = () => {
   const [username, setUsername] = useState('')
@@ -11,16 +12,17 @@ const Page = () => {
   const [error, setError] = useState('')
   const router = useRouter()
 
+  const { login } = useAuth()
+
   const handleSubmit = async (e) => {
     e.preventDefault()
 
     try {
       const response = await Login(username, password)
       console.log("Login exitoso:", response)
+      login(response.token)
 
-      // token y Redirige
-      // localStorage.setItem('token', response.token)
-      router.push('/dashboard')
+      router.push('/')
 
     } catch (err) {
       console.error("Error al iniciar sesión:", err)
@@ -39,7 +41,7 @@ const Page = () => {
           className="mx-auto w-auto"
         />
         <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight text-gray-900">
-          Inicia sesión en tu cuenta
+          Inicia sesión
         </h2>
       </div>
 

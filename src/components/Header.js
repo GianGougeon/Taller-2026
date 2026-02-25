@@ -1,9 +1,9 @@
-// components/Header.tsx
 import Link from 'next/link';
 import Image from 'next/image';
 import styles from '../styles/sass/base/Header.module.scss';
 
 export default function Header() {
+
     return (
         <>
             <nav className={styles.nav}>

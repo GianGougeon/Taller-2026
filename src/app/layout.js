@@ -1,10 +1,11 @@
 import "./../styles/css/style.css";
 import "./globals.css"
 import Header from "../components/Header";
+import { AuthProvider } from "../context/AuthContext";
 
 export const metadata = {
   title: "Rutas del Sabor",
-  description: "Explora las mejores rutas gastronómicas con Rutas del Sabor. Descubre sabores auténticos, restaurantes recomendados y experiencias culinarias únicas en tu ciudad. ¡Sigue nuestras rutas y disfruta de la gastronomía local como nunca antes!",
+  description: "Explora las mejores rutas gastronómicas...",
 };
 
 export default function RootLayout({ children }) {
@@ -14,10 +15,12 @@ export default function RootLayout({ children }) {
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet" />
       </head>
       <body>
-        <Header />
-        <main>
-          {children}
-        </main>
+        <AuthProvider>
+          <Header />
+          <main>
+            {children}
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );
