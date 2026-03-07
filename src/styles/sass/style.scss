@@ -1,15 +1,4 @@
 @use "./base/variables" as *;
-@use "./base/main/main";
-
-
-:root {
-    --background: #{$blanco};
-    --foreground: #{$azul-oscuro};
-}
-
-@theme inline {
-    --font-sans: "Poppins", sans-serif;
-}
 
 * {
     margin: 0;

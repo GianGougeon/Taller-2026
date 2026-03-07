@@ -1,0 +1,76 @@
+@use "../base/variables" as *;
+@use "../mixin/btm-cta" as m;
+
+.local {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding-top: 1rem;
+}
+.header {
+    padding: 3rem;
+    span {
+        color: $naranja-principal;
+    }
+}
+.filter {
+    padding: 1.2rem;
+    margin-bottom: 5rem;
+    > div {
+        font-size: 1.2rem;
+        padding-bottom: 2rem;
+    }
+    svg {
+        color: $naranja-principal;
+        padding: 0.2rem;
+    }
+    label {
+        padding: 0.2rem;
+        font-size: 18px;
+    }
+
+    input,
+    select {
+        padding: 0.8rem 1rem;
+        border-radius: 10px;
+        border: 1px solid #e2e8f0;
+        font-size: 1rem;
+        outline: none;
+        transition: border-color 0.2s ease;
+
+        &:focus {
+            border-color: $naranja-principal !important;
+            box-shadow: 0 0 0 2px rgba($naranja-principal, 0.2);
+        }
+    }
+}
+
+.grilla {
+    .tag {
+        padding: 0.3rem;
+        display: flex;
+        align-items: center;
+        svg {
+            padding: 0.3rem;
+            font-size: 1rem;
+            color: $naranja-principal;
+        }
+    }
+}
+.info {
+    padding: 1rem;
+    div:first-child {
+        padding: 0.2rem 0;
+        svg {
+            color: $naranja-principal;
+        }
+    }
+    div:nth-child(3) {
+        span {
+            font-weight: bold;
+            color: $azul-oscuro;
+            padding: 0.5rem 0;
+            margin-top: 0.2rem;
+        }
+    }
+}

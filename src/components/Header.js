@@ -1,9 +1,15 @@
+"use client"
 import Link from 'next/link';
 import Image from 'next/image';
-import styles from '../styles/sass/base/Header.module.scss';
+import styles from '../styles/sass/base/header/Header.module.scss';
+import { useAuth } from './context/AuthContext.js'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faUser } from '@fortawesome/free-solid-svg-icons'
 
-export default function Header() {
 
+
+const Header = () => {
+    const { token } = useAuth();
     return (
         <>
             <nav className={styles.nav}>
@@ -18,9 +24,22 @@ export default function Header() {
                 </Link>
                 <ul>
                     <li><Link href="/">Inicio</Link></li>
-                    <li><Link href="/pages/perfil" className={styles.btnCtaC}>Perfil</Link></li>
+                    <li><Link href="/pages/locales">Locales</Link></li>
+                    {token ?
+                        <Link className={styles.avatar} href="/pages/perfil">
+                            <div className="h-12 w-12">
+                                <FontAwesomeIcon icon={faUser} width={45} height={45} />
+                            </div>
+                        </Link>
+
+                        :
+                        <li>
+                            <Link href="/pages/login" className={styles.btnCtaC}>Iniciar Sesion</Link>
+                        </li>
+                    }
                 </ul>
             </nav>
         </>
     );
 }
+export default Header;

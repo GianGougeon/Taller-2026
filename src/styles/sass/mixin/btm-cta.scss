@@ -14,15 +14,6 @@
 
     &:hover {
         color: $color !important;
+        scale: 1.03;
     }
-}
-
-/* Ejemplo */
-.btnCta {
-    @include btn-cta();
-}
-
-/* Ejemplo */
-.btnCta--small {
-    @include btn-cta($padding-vertical: 0.5rem, $padding-horizontal: 1rem, $radius: 30px);
 }

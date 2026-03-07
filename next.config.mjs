@@ -5,13 +5,17 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'http',
-        hostname: '*.googleusercontent.com', // El asterisco acepta lh3, lh4, etc.
+        hostname: '*.googleusercontent.com',
         port: '',
         pathname: '/**',
       },
       {
-        protocol: 'https', // También agregamos https por seguridad
-        hostname: '*.googleusercontent.com',
+        protocol: 'https',
+        hostname: '**.amazonaws.com',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.googleusercontent.com',
         port: '',
         pathname: '/**',
       },

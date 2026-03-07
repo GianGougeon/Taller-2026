@@ -1,37 +1,45 @@
 "use client"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Login } from '../../../api/api' // Asegúrate de tener esta función en tu API
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
-import { useAuth } from '../../../context/AuthContext'
+import { useAuth } from '../../../components/context/AuthContext'
+import styles from "./../../../styles/sass/components/Auth.module.scss"
+
 
 const Page = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
+  const { token, logout } = useAuth();
+
+
   const router = useRouter()
 
   const { login } = useAuth()
 
+  useEffect(() => {
+    if (token) {
+      router.push('/');
+    }
+  }, [token, router]);
+
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     try {
-      const response = await Login(username, password)
-      console.log("Login exitoso:", response)
-      login(response.token)
-
+      const data = await Login(username, password)
+      login(data.token, data.user);
       router.push('/')
-
     } catch (err) {
-      console.error("Error al iniciar sesión:", err)
-      setError('Credenciales incorrectas. Inténtalo de nuevo.')
+      setError('Credenciales inválidas. Por favor, inténtalo de nuevo.')
     }
   }
 
+
+
   return (
-    <div className="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center">
+    <div className={`flex min-h-full flex-col justify-center px-6 py-12 lg:px-8 items-center ${styles.login}`}>
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
         <Image
           alt="Tu Empresa"

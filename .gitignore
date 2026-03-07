@@ -12,6 +12,8 @@
 example
 src/api/pokeapi.js
 src/app/pages/pokemon
+*.py
+*.txt
 
 # testing
 /coverage

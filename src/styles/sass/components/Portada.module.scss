@@ -1,0 +1,48 @@
+@use "../base/variables" as *;
+@use "../mixin/btm-cta" as m;
+
+.btnCta {
+    @include m.btn-cta();
+}
+
+.hero {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5rem 10%;
+    min-height: 80vh;
+    gap: 2rem;
+
+    &Content {
+        flex: 1;
+
+        h1 {
+            font-size: 3.5rem;
+            color: $azul-oscuro;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            span {
+                color: $naranja-principal;
+            }
+        }
+
+        p {
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+    }
+
+    &Image {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+
+        img {
+            max-width: 80%;
+            height: auto;
+            filter: drop-shadow(0 20px 30px rgba(0, 0, 0, 0.1));
+        }
+    }
+}

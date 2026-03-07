@@ -14,7 +14,6 @@ export const Register = async (username, password, name) => {
     });
     const data = await response.json();
     localStorage.setItem("token", data.token);
-    console.log("Base de datos creada", data);
 };
 
 export const Login = async (username, password) => {
@@ -29,8 +28,8 @@ export const Login = async (username, password) => {
         }),
     });
     const data = await response.json();
-    console.log("Login", data);
     localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user))
     return data;
 };
 
@@ -41,9 +40,61 @@ export const Logout = () => {
 export const getLocals = async (q = "", type = "", priceRange = "", rating = "", city = "", zone = "") => {
     const response = await fetch(`${url}/api/locals?q=${q}&type=${type}&priceRange=${priceRange}&rating=${rating}&city=${city}&zone=${zone}`);
     const data = await response.json();
-    console.log(data);
+    return data;
+}
+
+export const getLocal = async (id) => {
+    const response = await fetch(`${url}/api/locals/${id}`);
+    const data = await response.json();
+    return data;
+}
+
+export const postLocal = async (name, type, priceRange, city, zone, address, hours, photos) => {
+
+    const response = await fetch(`${url}/api/locals`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", 'Authorization': `Bearer ${localStorage.getItem("token")}` }
+        ,
+        body: JSON.stringify({ name, type, priceRange, city, zone, address, hours, photos })
+    })
+
+    const data = await response.json();
     return data;
 
 }
 
+export const postPlato = async (name, category, localId, city, price, description) => {
+    const response = await fetch(`${url}/api/dishes`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({
+            name: name.trim(),
+            category,
+            localId,
+            city,
+            price,
+            description
+        }),
+    });
 
+    const data = await response.json();
+    return data;
+};
+
+
+
+export const postReview = async (id, rating, comment) => {
+    const response = await fetch(`${url}/api/locals/${id}/reviews`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+        },
+        body: JSON.stringify({ rating, comment })
+    });
+    const data = await response.json();
+    return data;
+}

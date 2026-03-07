@@ -5,10 +5,8 @@ $azul-oscuro: #1d3547;
 $gris-suave: #f3f4f6;
 $blanco: #ffffff;
 $texto-cuerpo: #4b5563;
-
 $tablet: 768px;
 
-// Mixin para Flex Center
 @mixin flex-center {
     display: flex;
     align-items: center;
