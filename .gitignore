@@ -14,6 +14,7 @@ src/api/pokeapi.js
 src/app/pages/pokemon
 *.py
 *.txt
+ProyectoTaller2026.zip
 
 # testing
 /coverage

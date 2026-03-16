@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { postReview } from "./../api/api";
-
-export default function RatingLocal({ local, setIsPosted }) {
+import Styles from "./../styles/sass/components/Rating.module.scss";
+export default function RatingModal({ name, subtitle = "¿Cómo fue tu experiencia?", onSubmit, setIsPosted }) {
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState("");
     const [hover, setHover] = useState(0);
@@ -16,20 +15,20 @@ export default function RatingLocal({ local, setIsPosted }) {
     };
 
     const handleSubmit = async () => {
-        if (rating > 0) {
-            await postReview(local.id, rating, comment);
-            setIsPosted(true);
-            setSubmitted(true);
-        }
+        if (rating === 0) return;
+        await onSubmit(rating, comment);
+        setIsPosted(true);
+        setSubmitted(true);
     };
 
     return (
-        <div className=" flex items-center justify-center p-4">
-            <div className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-sm text-center">
+        <div className={`flex items-center justify-center p-4 ${Styles.rating}`}>
+            <div className="text-center w-full">
                 {!submitted ? (
                     <>
-                        <h2 className="text-2xl font-bold text-gray-800">{local.name}</h2>
-                        <p className="text-gray-400 text-sm mb-6">¿Cómo fue tu experiencia?</p>
+                        <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
+                        <p className="text-gray-400 text-sm mb-6">{subtitle}</p>
+
                         <div className="flex justify-center gap-2 mb-3">
                             {[1, 2, 3, 4, 5].map((star) => (
                                 <button
@@ -53,9 +52,11 @@ export default function RatingLocal({ local, setIsPosted }) {
                                 </button>
                             ))}
                         </div>
+
                         <p className="text-amber-500 font-medium h-6 text-sm mb-6">
                             {hover || rating ? labels[hover || rating] : ""}
                         </p>
+
                         <textarea
                             value={comment}
                             onChange={(e) => setComment(e.target.value)}
@@ -63,15 +64,15 @@ export default function RatingLocal({ local, setIsPosted }) {
                             rows={3}
                             className="w-full rounded-xl border border-gray-200 p-3 text-sm text-gray-700 resize-none focus:outline-none focus:ring-2 focus:ring-amber-300 mb-4"
                         />
+
                         <button
                             onClick={handleSubmit}
                             disabled={rating === 0}
-                            className="w-full py-2 rounded-xl font-semibold text-white transition-all duration-200"
+                            className={`w-full py-2 rounded-xl font-semibold text-white transition-all duration-200 ${Styles.ratingbutton}`}
                             style={{
-                                background:
-                                    rating > 0
-                                        ? "linear-gradient(135deg, #f59e0b, #ef4444)"
-                                        : "#e5e7eb",
+                                background: rating > 0
+                                    ? "linear-gradient(135deg, #f59e0b, #ef4444)"
+                                    : "#e5e7eb",
                                 cursor: rating > 0 ? "pointer" : "not-allowed",
                             }}
                         >

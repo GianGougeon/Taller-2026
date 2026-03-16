@@ -2,11 +2,12 @@
 import React, { useState } from 'react';
 import { postLocal } from "../../../api/api";
 import styles from '../../../styles/sass/components/AltaLocal.module.scss';
+import { redirect } from 'next/navigation';
 
 const AltaLocal = () => {
   const [name, setName] = useState("");
-  const [type, setType] = useState("");
-  const [priceRange, setPriceRange] = useState("");
+  const [type, setType] = useState("RESTAURANTE");
+  const [priceRange, setPriceRange] = useState("ECONOMICO");
   const [city, setCity] = useState("");
   const [zone, setZone] = useState("");
   const [address, setAddress] = useState("");
@@ -24,6 +25,7 @@ const AltaLocal = () => {
     e.preventDefault();
     await postLocal(name, type, priceRange, city, zone, address, hours, photos);
     alert("Local creado con éxito");
+    redirect("/pages/locales");
   };
 
   return (
@@ -75,6 +77,7 @@ const AltaLocal = () => {
             <label className="block text-sm font-semibold">Rango de Precios</label>
             <select
               name="priceRange"
+              value={priceRange}
               onChange={(e) => setPriceRange(e.target.value)}
               className="mt-2.5 block w-full rounded-lg border-0 px-3.5 py-2 ring-1 ring-inset ring-gray-300 focus:ring-2 outline-none bg-white"
             >
@@ -88,6 +91,7 @@ const AltaLocal = () => {
             <label className="block text-sm font-semibold">Tipo de Local</label>
             <select
               name="type"
+              value={type}
               onChange={(e) => setType(e.target.value)}
               className="mt-2.5 block w-full rounded-lg border-0 px-3.5 py-2 ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-[#ff6600] outline-none bg-white"
             >

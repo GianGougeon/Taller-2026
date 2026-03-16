@@ -1,0 +1,47 @@
+@use "../mixin/btm-cta" as m;
+@use "../base/variables" as *;
+
+.perfilUsuario {
+    padding: 5rem 10%;
+    svg {
+        color: $naranja-principal;
+    }
+    .perfilAvatar {
+        padding: 1rem;
+    }
+    .perfilTabs {
+        margin: 1rem 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        width: 100%;
+        background-color: transparent;
+        button {
+            flex: 1;
+            padding: 1rem;
+            border-radius: 10px;
+            border: none;
+            background-color: $azul-oscuro;
+            color: white;
+            font-weight: bold;
+            &:hover {
+                color: white !important;
+                cursor: pointer;
+            }
+            &.active {
+                background-color: $naranja-principal !important;
+            }
+        }
+    }
+    .perfilLocal {
+        padding: 2rem;
+    }
+    .tabActiva {
+        background-color: $naranja-principal !important;
+        color: $azul-oscuro !important;
+        svg {
+            color: $azul-oscuro !important;
+        }
+    }
+}

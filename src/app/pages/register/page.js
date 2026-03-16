@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from "react"
-import { Register } from "../../../api/api" // Debes tener esta función creada
+import { Register } from "../../../api/api"
 import Link from "next/link"
 import Image from "next/image"
 import { useRouter } from "next/navigation"
@@ -12,7 +12,7 @@ const Page = () => {
   const [name, setName] = useState("")
   const [password, setPassword] = useState("")
 
-  const { token } = useAuth()
+  const { token, login } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -23,8 +23,18 @@ const Page = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    await Register(username, name, password);
-    router.push("/")
+    try {
+      const response = await Register(username, name, password);
+      if (response && response.token) {
+        login(response.token);
+      } else {
+        const savedToken = localStorage.getItem('token');
+        if (savedToken) login(savedToken);
+      }
+      router.push("/")
+    } catch (error) {
+      console.error("Error en el registro:", error);
+    }
   }
 
   return (

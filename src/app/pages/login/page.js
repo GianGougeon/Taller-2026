@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react'
-import { Login } from '../../../api/api' // Asegúrate de tener esta función en tu API
+import { Login } from '../../../api/api'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -12,7 +12,7 @@ const Page = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
-  const { token, logout } = useAuth();
+  const { token } = useAuth();
 
 
   const router = useRouter()

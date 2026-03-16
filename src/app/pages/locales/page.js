@@ -20,10 +20,9 @@ import {
   faChevronDown
 } from '@fortawesome/free-solid-svg-icons';
 import { Loader } from "@/components/Loader";
-import styles from "./../../../styles/sass/components/Locales.module.scss"
+import styles from "./../../../styles/sass/components/LocalesYplatos.module.scss"
 
 export default function Home() {
-  const [user, setUser] = useState({});
   const [locals, setLocals] = useState([]);
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
@@ -31,13 +30,16 @@ export default function Home() {
   const [rating, setRating] = useState("");
   const [city, setCity] = useState("");
   const [zone, setZone] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [filtering, setFiltering] = useState(false);
 
   useEffect(() => {
     const fetchLocals = async () => {
+      setFiltering(true);
       const data = await getLocals(query, type, priceRange, rating, city, zone);
       setLocals(data.items);
-      setLoading(true);
+      setLoading(false);
+      setFiltering(false);
     }
 
     fetchLocals();
@@ -71,230 +73,229 @@ export default function Home() {
     }
   };
 
+  if (loading) return <Loader />;
 
   return (
     <>
-      {loading ? (
-        <div className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ${styles.local}`}>
-          <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
-            <div className={`text-center mb-12 ${styles.header}`}>
-              <h1 className="text-4xl font-bold text-gray-900 mb-4">
-                Descubre los <span>mejores</span> lugares
-              </h1>
-              <p className="text-lg text-gray-600">
-                Encuentra restaurantes, cafeterías y bares cerca de ti
-              </p>
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 ${styles.local}`}>
+        <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+          <div className={`text-center mb-12 ${styles.header}`}>
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Descubre los <span>mejores</span> lugares
+            </h1>
+            <p className="text-lg text-gray-600">
+              Encuentra restaurantes, cafeterías y bares cerca de ti
+            </p>
+          </div>
+          
+          <div className={`bg-white rounded-2xl shadow-lg p-6 mb-12 ${styles.filter}`}>
+            <div className="flex items-center gap-2 mb-4">
+              <FontAwesomeIcon icon={faSearch} className="text-indigo-600" />
+              <h2 className="text-lg font-semibold text-gray-900">
+                Filtros de búsqueda {filtering && <span className="text-sm font-normal text-gray-400 ml-2">(Actualizando...)</span>}
+              </h2>
             </div>
-            <div className={`bg-white rounded-2xl shadow-lg p-6 mb-12 ${styles.filter}`}>
-              <div className="flex items-center gap-2 mb-4">
-                <FontAwesomeIcon icon={faSearch} className="text-indigo-600" />
-                <h2 className="text-lg font-semibold text-gray-900">Filtros de búsqueda</h2>
+            
+            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faTag} className="mr-2 text-indigo-500" />
+                  Buscar
+                </label>
+                <input
+                  type="text"
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Nombre del local..."
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                />
               </div>
-              <div className="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faCity} className="mr-2 text-indigo-500" />
+                  Ciudad
+                </label>
+                <input
+                  type="text"
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Ej: Madrid"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-indigo-500" />
+                  Zona
+                </label>
+                <input
+                  type="text"
+                  value={zone}
+                  onChange={(e) => setZone(e.target.value)}
+                  placeholder="Ej: Centro"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faStar} className="mr-2 text-yellow-500" />
+                  Rating mínimo
+                </label>
+                <input
+                  type="number"
+                  min="0"
+                  max="5"
+                  step="0.5"
+                  value={rating}
+                  onChange={(e) => setRating(e.target.value)}
+                  placeholder="Ej: 4"
+                  className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                />
+              </div>
+
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2 text-green-500" />
+                  Rango de precio
+                </label>
                 <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faTag} className="mr-2 text-indigo-500" />
-                    Buscar
-                  </label>
-                  <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Nombre del local..."
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
+                  <select
+                    value={priceRange}
+                    onChange={(e) => setPriceRange(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-all"
+                  >
+                    <option value="">Todos los precios</option>
+                    <option value="ECONOMICO">Económico</option>
+                    <option value="MEDIO">Medio</option>
+                    <option value="ALTO">Alto</option>
+                  </select>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
                   />
-                </div>
-
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faCity} className="mr-2 text-indigo-500" />
-                    Ciudad
-                  </label>
-                  <input
-                    type="text"
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="Ej: Madrid"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-                  />
-                </div>
-
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faLocationDot} className="mr-2 text-indigo-500" />
-                    Zona
-                  </label>
-                  <input
-                    type="text"
-                    value={zone}
-                    onChange={(e) => setZone(e.target.value)}
-                    placeholder="Ej: Centro"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-                  />
-                </div>
-
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faStar} className="mr-2 text-yellow-500" />
-                    Rating mínimo
-                  </label>
-                  <input
-                    type="number"
-                    min="0"
-                    max="5"
-                    step="0.5"
-                    value={rating}
-                    onChange={(e) => setRating(e.target.value)}
-                    placeholder="Ej: 4"
-                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 transition-all"
-                  />
-                </div>
-
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={faMoneyBillWave} className="mr-2 text-green-500" />
-                    Rango de precio
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={priceRange}
-                      onChange={(e) => setPriceRange(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-all"
-                    >
-                      <option value="">Todos los precios</option>
-                      <option value="ECONOMICO">Económico</option>
-                      <option value="MEDIO">Medio</option>
-                      <option value="ALTO">Alto</option>
-                    </select>
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                    />
-                  </div>
-                </div>
-
-                <div className="relative">
-                  <label className="block text-sm font-medium text-gray-700 mb-2">
-                    <FontAwesomeIcon icon={getTypeIcon(type)} className="mr-2 text-indigo-500" />
-                    Tipo
-                  </label>
-                  <div className="relative">
-                    <select
-                      value={type}
-                      onChange={(e) => setType(e.target.value)}
-                      className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-all"
-                    >
-                      <option value="">Todos los tipos</option>
-                      <option value="CAFETERIA">Cafetería</option>
-                      <option value="RESTAURANTE">Restaurante</option>
-                      <option value="BAR">Bar</option>
-                      <option value="FOOD_TRUCK">Food Truck</option>
-                      <option value="OTROS">Otros</option>
-                    </select>
-                    <FontAwesomeIcon
-                      icon={faChevronDown}
-                      className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
-                    />
-                  </div>
                 </div>
               </div>
+
+              <div className="relative">
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  <FontAwesomeIcon icon={getTypeIcon(type)} className="mr-2 text-indigo-500" />
+                  Tipo
+                </label>
+                <div className="relative">
+                  <select
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                    className="w-full px-4 py-2.5 border border-gray-300 rounded-xl focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 appearance-none transition-all"
+                  >
+                    <option value="">Todos los tipos</option>
+                    <option value="CAFETERIA">Cafetería</option>
+                    <option value="RESTAURANTE">Restaurante</option>
+                    <option value="BAR">Bar</option>
+                    <option value="FOOD_TRUCK">Food Truck</option>
+                    <option value="OTROS">Otros</option>
+                  </select>
+                  <FontAwesomeIcon
+                    icon={faChevronDown}
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"
+                  />
+                </div>
+              </div>
             </div>
+          </div>
 
-            <div className={`grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${styles.grilla}`}>
-              {locals.map((local) => (
-                <Link
-                  href={`/pages/detalleLocal/${local.id}`}
-                  key={local.id}
-                  className="group"
-                >
-                  <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                    <div className="relative h-48 overflow-hidden">
-                      <img
-                        src={local.photos}
-                        alt={local.name || "Imagen del local"}
-                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
-                        onError={(e) =>
-                          (e.target.src = "https://lh3.googleusercontent.com/pw/AP1GczNjo5WEDjQvtpDJ86Dx2c_iJxbZKkK9u15TNov3Vs-LxNta9C1Uj_o8Mp9GynnoKrBiEL-VHjzh12aw1PZnapGdo3rdzXmAf6PD7hCebk99yOrA3h8JpEMO8OlA_AwGrZHJAImYWhQD53nNdKWzZZMIRw=w1264-h842-s-no-gm?authuser=1")
-                        }
-                      />
+          <div className={`grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 ${styles.grilla} ${filtering ? 'opacity-50' : 'opacity-100'} transition-opacity`}>
+            {locals.map((local) => (
+              <Link
+                href={`/pages/detalleLocal/${local.id}`}
+                key={local.id}
+                className="group"
+              >
+                <div className="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                  <div className="relative h-48 overflow-hidden">
+                    <img
+                      src={local.photos}
+                      alt={local.name || "Imagen del local"}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                      onError={(e) =>
+                        (e.target.src = "https://lh3.googleusercontent.com/pw/AP1GczNjo5WEDjQvtpDJ86Dx2c_iJxbZKkK9u15TNov3Vs-LxNta9C1Uj_o8Mp9GynnoKrBiEL-VHjzh12aw1PZnapGdo3rdzXmAf6PD7hCebk99yOrA3h8JpEMO8OlA_AwGrZHJAImYWhQD53nNdKWzZZMIRw=w1264-h842-s-no-gm?authuser=1")
+                      }
+                    />
 
-                      <div className={`p-[1%] absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 shadow-lg ${styles.tag}`}>
-                        <FontAwesomeIcon icon={getTypeIcon(local.type)} className="mr-1 text-indigo-600" />
-                        {local.type}
+                    <div className={`p-[1%] absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold text-gray-700 shadow-lg ${styles.tag}`}>
+                      <FontAwesomeIcon icon={getTypeIcon(local.type)} className="mr-1 text-indigo-600" />
+                      {local.type}
+                    </div>
+
+                    {local.priceRange && (
+                      <div className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${styles.tag}`}>
+                        <FontAwesomeIcon icon={faMoneyBillWave} className="mr-1 text-indigo-600" />
+                        <span className={getPriceColor(local.priceRange)}>
+                          {local.priceRange}
+                        </span>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className={`p-8 ${styles.info}`}>
+                    <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-1">
+                      {local.name}
+                    </h3>
+
+                    <div className="space-y-2">
+                      <div className="flex items-center text-sm text-gray-600">
+                        <FontAwesomeIcon icon={faMapPin} className="mr-2 text-indigo-500 w-4" />
+                        <span className="line-clamp-1">
+                          {local.city}{local.zone ? `, ${local.zone}` : ''}
+                        </span>
                       </div>
 
-                      {local.priceRange && (
-                        <div className={`absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold shadow-lg ${styles.tag}`}>
-                          <FontAwesomeIcon icon={faMoneyBillWave} className="mr-1 text-indigo-600" />
-                          <span className={getPriceColor(local.priceRange)}>
-                            {local.priceRange}
-                          </span>
+                      {local.rating && (
+                        <div className="flex items-center text-sm">
+                          <FontAwesomeIcon icon={faStar} className="mr-2 text-yellow-500 w-4" />
+                          <span className="font-semibold text-gray-900">{local.rating}</span>
+                          <span className="text-gray-500 ml-1">/5</span>
                         </div>
+                      )}
+
+                      {local.description && (
+                        <p className="text-sm text-gray-500 line-clamp-2 mt-2">
+                          {local.description}
+                        </p>
                       )}
                     </div>
 
-                    <div className={`p-8 ${styles.info}`}>
-                      <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-1">
-                        {local.name}
-                      </h3>
-
-                      <div className="space-y-2">
-                        <div className="flex items-center text-sm text-gray-600">
-                          <FontAwesomeIcon icon={faMapPin} className="mr-2 text-indigo-500 w-4" />
-                          <span className="line-clamp-1">
-                            {local.city}{local.zone ? `, ${local.zone}` : ''}
-                          </span>
-                        </div>
-
-                        {local.rating && (
-                          <div className="flex items-center text-sm">
-                            <FontAwesomeIcon icon={faStar} className="mr-2 text-yellow-500 w-4" />
-                            <span className="font-semibold text-gray-900">{local.rating}</span>
-                            <span className="text-gray-500 ml-1">/5</span>
-                          </div>
-                        )}
-
-                        {local.description && (
-                          <p className="text-sm text-gray-500 line-clamp-2 mt-2">
-                            {local.description}
-                            hola
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="mt-4 pt-4 border-t border-gray-100">
-                        <span className="text-indigo-600 text-sm font-semibold group-hover:text-indigo-800 transition-colors flex items-center">
-                          Ver detalles
-                          <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                          </svg>
-                        </span>
-                      </div>
+                    <div className="mt-4 pt-4 border-t border-gray-100">
+                      <span className="text-indigo-600 text-sm font-semibold group-hover:text-indigo-800 transition-colors flex items-center">
+                        Ver detalles
+                        <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </span>
                     </div>
                   </div>
-                </Link>
-              ))}
-            </div>
-
-            {locals.length === 0 && (
-              <div className="text-center py-16">
-                <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
-                  <FontAwesomeIcon icon={faStore} className="text-6xl text-gray-300 mb-4" />
-                  <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                    No se encontraron locales
-                  </h3>
-                  <p className="text-gray-500">
-                    Prueba con otros filtros de búsqueda
-                  </p>
                 </div>
-              </div>
-            )}
+              </Link>
+            ))}
           </div>
-        </div >
-      ) : (
-        <Loader />
-      )
-      }
+
+          {!filtering && locals.length === 0 && (
+            <div className="text-center py-16">
+              <div className="bg-white rounded-2xl shadow-lg p-12 max-w-md mx-auto">
+                <FontAwesomeIcon icon={faStore} className="text-6xl text-gray-300 mb-4" />
+                <h3 className="text-xl font-semibold text-gray-900 mb-2">
+                  No se encontraron locales
+                </h3>
+                <p className="text-gray-500">
+                  Prueba con otros filtros de búsqueda
+                </p>
+              </div>
+            </div>
+          )}
+        </div>
+      </div >
     </>
   );
 }

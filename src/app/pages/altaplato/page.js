@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { postPlato, getLocals } from "../../../api/api";
+import { postPlatos, getLocals } from "../../../api/api";
 import styles from '../../../styles/sass/components/AltaLocal.module.scss';
 import { Loader } from '@/components/Loader';
 
@@ -49,8 +49,9 @@ const AltaPlato = () => {
             return;
         }
         try {
-            await postPlato(name, category, localId, city, price, description);
+            await postPlatos(name, category, localId, city, price, description);
             alert("Plato registrado correctamente");
+            redirect("/pages/locales");
         } catch (error) {
             console.error(error);
             alert("Error al registrar el plato");

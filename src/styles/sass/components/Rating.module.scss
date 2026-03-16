@@ -1,0 +1,26 @@
+@use "../mixin/btm-cta" as m;
+@use "../base/variables" as *;
+
+.rating {
+    display: flex;
+    align-items: center;
+    flex-wrap: nowrap !important;
+    justify-content: center;
+    gap: 0.2rem;
+    margin: 2rem;
+    h2 {
+        display: flex;
+    }
+    width: 420px svg {
+        color: $naranja-principal;
+        padding: 0.2rem;
+    }
+    textarea {
+        padding: 2rem;
+        border-radius: 10px;
+    }
+    .ratingbutton {
+        @include m.btn-cta();
+    }
+    
+}
